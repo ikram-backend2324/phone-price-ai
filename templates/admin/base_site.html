@@ -1,32 +1,68 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block usertools %}
-<!-- Language switcher for admin -->
-<form method="post" action="{% url 'set_language' %}" id="adminLangForm" style="display:inline;">
+{% block extrastyle %}
+{{ block.super }}
+<style>
+.lang-switcher-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 16px;
+    vertical-align: middle;
+}
+.lang-btn-admin {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.65);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    line-height: 1.6;
+}
+.lang-btn-admin:hover {
+    border-color: #a78bfa;
+    color: #c4b5fd;
+    background: rgba(139,92,246,0.15);
+}
+.lang-btn-admin.active {
+    border-color: #8b5cf6;
+    color: #c4b5fd;
+    background: rgba(139,92,246,0.25);
+}
+/* Fix for nav_top area where we'll inject */
+#jazzy-lang-form { display: none; }
+</style>
+{% endblock %}
+
+{% block nav-global %}
+{{ block.super }}
+
+{# Hidden form that language buttons submit #}
+<form method="post" action="{% url 'set_language' %}" id="jazzy-lang-form">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ request.get_full_path }}">
-    <input type="hidden" name="language" id="adminLangInput" value="">
+    <input type="hidden" name="language" id="jazzy-lang-input" value="">
 </form>
+{% endblock %}
 
-<span style="margin-right: 12px; display: inline-flex; align-items: center; gap: 4px;">
-    {% get_current_language as CURRENT_LANG %}
+{% block usertools %}
+{% get_current_language as CURRENT_LANG %}
+
+<div class="lang-switcher-admin">
     {% for lang_code, lang_name in LANGUAGES %}
-    <button type="button"
-        onclick="document.getElementById('adminLangInput').value='{{ lang_code }}'; document.getElementById('adminLangForm').submit();"
-        style="
-            background: {% if CURRENT_LANG == lang_code %}rgba(139,92,246,0.25){% else %}transparent{% endif %};
-            border: 1px solid {% if CURRENT_LANG == lang_code %}#8b5cf6{% else %}rgba(255,255,255,0.2){% endif %};
-            color: {% if CURRENT_LANG == lang_code %}#c4b5fd{% else %}rgba(255,255,255,0.6){% endif %};
-            font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 5px;
-            cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase;
-            transition: all 0.2s;
-        "
-        onmouseover="this.style.borderColor='#8b5cf6'; this.style.color='#c4b5fd';"
-        onmouseout="if('{{ CURRENT_LANG }}' !== '{{ lang_code }}') { this.style.borderColor='rgba(255,255,255,0.2)'; this.style.color='rgba(255,255,255,0.6)'; }"
+    <button
+        type="button"
+        class="lang-btn-admin {% if CURRENT_LANG == lang_code %}active{% endif %}"
+        onclick="document.getElementById('jazzy-lang-input').value='{{ lang_code }}'; document.getElementById('jazzy-lang-form').submit();"
     >{{ lang_code|upper }}</button>
     {% endfor %}
-</span>
+</div>
 
 {{ block.super }}
 {% endblock %}
