@@ -1,0 +1,171 @@
+# Qaraqalpaq
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: kaa\n"
+
+msgid "Dashboard"
+msgstr "Basqarıw paneli"
+
+msgid "Estimate Price"
+msgstr "Bahasın anıqlaw"
+
+msgid "Logout"
+msgstr "Shıǵıw"
+
+msgid "My Estimates"
+msgstr "Meniń bahalawlarım"
+
+msgid "Total Estimates"
+msgstr "Ulıwma bahalawlar"
+
+msgid "Avg Price (USD)"
+msgstr "Ortasha baha (USD)"
+
+msgid "Avg Confidence"
+msgstr "Ortasha isenimlilik"
+
+msgid "No estimates yet"
+msgstr "Házirshe bahalawlar joq"
+
+msgid "Upload a phone photo to get an AI price estimate"
+msgstr "AI arqalı bahasın anıqlaw ushın telefon súwretin jükleń"
+
+msgid "Get First Estimate"
+msgstr "Birinshi bahalawdı alıw"
+
+msgid "Estimate Phone Price"
+msgstr "Telefon bahasın anıqlaw"
+
+msgid "Popular brands — tap to select"
+msgstr "Ataqlı brendler — tańlaw ushın basıń"
+
+msgid "Type or pick a brand above…"
+msgstr "Jazıń yamasa joqarıdan brendti tańlań…"
+
+msgid "Phone Brand"
+msgstr "Telefon brendi"
+
+msgid "Device Condition"
+msgstr "Qurılma jaǵdayı"
+
+msgid "Drag & drop a photo or click to select"
+msgstr "Súwretti tartıp ákeliń yamasa tańlaw ushın basıń"
+
+msgid "JPG, PNG, WEBP up to 10 MB"
+msgstr "JPG, PNG, WEBP, 10 MB ǵa shekem"
+
+msgid "Clear photo = better estimate"
+msgstr "Tınıq súwret = anıǵıraq baha"
+
+msgid "Show front & back if possible"
+msgstr "Múmkin bolsa, aldı hám arqa tárepin kórsetiń"
+
+msgid "Include screen condition"
+msgstr "Ekran jaǵdayın kórsetiń"
+
+msgid "Analyzing Phone..."
+msgstr "Telefon analizlenbekte..."
+
+msgid "Uploading image..."
+msgstr "Súwret jüklenbekte..."
+
+msgid "Identifying model & brand..."
+msgstr "Model hám brend anıqlanbaqta..."
+
+msgid "Assessing condition..."
+msgstr "Jaǵdayı bahalanbaqta..."
+
+msgid "Calculating price estimate..."
+msgstr "Shamalanǵan baha esaplanbaqta..."
+
+msgid "Price Estimate"
+msgstr "Shamalanǵan baha"
+
+msgid "Estimated Market Price"
+msgstr "Shamalanǵan bazar bahası"
+
+msgid "USD · Based on condition & model"
+msgstr "USD · Jaǵdayı hám modeline tiykarlanǵan"
+
+msgid "AI Analysis"
+msgstr "AI analizi"
+
+msgid "Model confidence"
+msgstr "Model isenimliligi"
+
+msgid "Analysis complete"
+msgstr "Analiz juwmaqlandı"
+
+msgid "New Estimate"
+msgstr "Jańa bahalaw"
+
+msgid "Back"
+msgstr "Artqa"
+
+msgid "Sign In"
+msgstr "Kiriw"
+
+msgid "Login"
+msgstr "Kiriw"
+
+msgid "No account?"
+msgstr "Akkountıńız joq pa?"
+
+msgid "Register"
+msgstr "Dizimnen ótiw"
+
+msgid "Create Account"
+msgstr "Akkount jaratıw"
+
+msgid "Already have an account?"
+msgstr "Akkountıńız bar ma?"
+
+msgid "Sign in"
+msgstr "Kiresiz be?"
+
+msgid "New / Like New"
+msgstr "Taza / Tazaday"
+
+msgid "Good"
+msgstr "Jaqsı"
+
+msgid "Fair"
+msgstr "Ortasha"
+
+msgid "Poor"
+msgstr "Jaman"
+
+msgid "Loading suggestions..."
+msgstr "Usınıslar jüklenbekte..."
+
+msgid "No brands added yet — ask admin to add them"
+msgstr "Házirshe brendler qosılmaǵan — adminden qosıwdı sorań"
+
+msgid "Preview"
+msgstr "Aldınnan kóriw"
+
+msgid "suggestion"
+msgstr "usınıs"
+
+msgid "Welcome to PhonePrice AI Admin"
+msgstr "PhonePrice AI basqarıw paneliне xosh kelipsiź"
+
+msgid "Home"
+msgstr "Bas bet"
+
+msgid "View Site"
+msgstr "Sayttı kóriw"
+
+msgid "English"
+msgstr "Inglissha"
+
+msgid "Uzbek"
+msgstr "O'zbeksha"
+
+msgid "Russian"
+msgstr "Orıssha"
+
+msgid "Qaraqalpaq"
+msgstr "Qaraqalpaqsha"

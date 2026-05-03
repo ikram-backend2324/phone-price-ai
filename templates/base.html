@@ -1,0 +1,308 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhonePrice AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ── DARK theme (default) ── */
+        :root {
+            --bg: #0a0f1e;
+            --surface: #111827;
+            --surface2: #1a2540;
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(139,92,246,0.5);
+            --accent: #8b5cf6;
+            --accent2: #6d28d9;
+            --accent-glow: rgba(139,92,246,0.25);
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --navbar-bg: rgba(10,15,30,0.88);
+            --grid-line: rgba(139,92,246,0.03);
+            --orb-color: rgba(139,92,246,0.07);
+        }
+
+        /* ── LIGHT theme ── */
+        [data-theme="light"] {
+            --bg: #f1f5f9;
+            --surface: #ffffff;
+            --surface2: #e8edf5;
+            --border: rgba(0,0,0,0.08);
+            --border-hover: rgba(109,40,217,0.4);
+            --accent: #6d28d9;
+            --accent2: #5b21b6;
+            --accent-glow: rgba(109,40,217,0.15);
+            --text: #0f172a;
+            --muted: #64748b;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --navbar-bg: rgba(241,245,249,0.92);
+            --grid-line: rgba(109,40,217,0.04);
+            --orb-color: rgba(109,40,217,0.05);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 0;
+            transition: background-image 0.3s;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            width: 700px; height: 700px; border-radius: 50%;
+            background: radial-gradient(circle, var(--orb-color) 0%, transparent 70%);
+            top: -250px; right: -250px;
+            pointer-events: none; z-index: 0;
+            animation: orb-drift 22s ease-in-out infinite alternate;
+        }
+
+        @keyframes orb-drift {
+            from { transform: translate(0,0); }
+            to   { transform: translate(-70px, 90px); }
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px; height: 62px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .navbar-left { display: flex; align-items: center; gap: 20px; }
+
+        .navbar-brand {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text);
+        }
+
+        .brand-icon {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .brand-name { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+        .brand-name span { color: var(--accent); }
+
+        .nav-links { display: flex; align-items: center; gap: 4px; }
+
+        .nav-links a {
+            text-decoration: none; color: var(--muted);
+            padding: 7px 14px; border-radius: var(--radius-sm);
+            font-size: 14px; font-weight: 500;
+            transition: all 0.2s; border: 1px solid transparent;
+        }
+
+        .nav-links a:hover { color: var(--text); background: var(--surface2); border-color: var(--border); }
+        .nav-links a.btn-nav { color: var(--accent); border-color: rgba(139,92,246,0.35); }
+        .nav-links a.btn-nav:hover { background: rgba(139,92,246,0.1); border-color: var(--accent); }
+
+        /* ── Navbar right controls ── */
+        .navbar-right { display: flex; align-items: center; gap: 8px; }
+
+        /* Language switcher */
+        .lang-switcher { display: flex; align-items: center; gap: 3px; }
+
+        .lang-btn {
+            background: none; border: 1px solid var(--border);
+            color: var(--muted); font-size: 11px; font-weight: 600;
+            padding: 4px 8px; border-radius: 6px; cursor: pointer;
+            transition: all 0.2s; letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .lang-btn:hover { color: var(--accent); border-color: var(--accent); background: rgba(139,92,246,0.08); }
+        .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(139,92,246,0.12); font-weight: 700; }
+
+        /* Theme toggle */
+        .theme-toggle {
+            background: none; border: 1px solid var(--border);
+            color: var(--muted); width: 34px; height: 34px;
+            border-radius: 8px; cursor: pointer; font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; margin-left: 4px;
+        }
+
+        .theme-toggle:hover { color: var(--accent); border-color: var(--accent); background: rgba(139,92,246,0.08); }
+
+        /* divider */
+        .nav-divider { width: 1px; height: 22px; background: var(--border); margin: 0 4px; }
+
+        /* ── Layout ── */
+        .container {
+            position: relative; z-index: 1;
+            max-width: 900px; margin: 48px auto; padding: 0 24px;
+            animation: page-in 0.5s ease both;
+        }
+
+        @keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 28px; margin-bottom: 20px;
+            animation: card-in 0.4s ease both;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        @keyframes card-in {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { font-size: 21px; font-weight: 700; color: var(--text); margin-bottom: 22px; letter-spacing: -0.3px; }
+        h2 .accent { color: var(--accent); }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; border-radius: var(--radius-sm);
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; text-decoration: none; border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff; box-shadow: 0 4px 18px var(--accent-glow);
+        }
+
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-outline { background: transparent; color: var(--accent); border: 1px solid rgba(139,92,246,0.35); }
+        .btn-outline:hover { background: rgba(139,92,246,0.08); border-color: var(--accent); }
+
+        input[type="text"], input[type="password"], input[type="email"], select {
+            width: 100%; padding: 10px 14px;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: var(--radius-sm); color: var(--text);
+            font-size: 14px; outline: none; transition: border-color 0.2s, background 0.3s;
+            margin-bottom: 14px;
+        }
+
+        input:focus, select:focus { border-color: var(--accent); }
+
+        label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+        ul { list-style: none; }
+        img { border-radius: var(--radius-sm); }
+
+        /* mobile */
+        @media (max-width: 600px) {
+            .navbar { padding: 0 14px; }
+            .nav-links a span { display: none; }
+            .brand-name { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Apply saved theme immediately (before render) -->
+<script>
+    (function() {
+        const t = localStorage.getItem('theme') || 'dark';
+        if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        else document.documentElement.removeAttribute('data-theme');
+    })();
+</script>
+
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="{% url 'index' %}" class="navbar-brand">
+            <div class="brand-icon">📱</div>
+            <span class="brand-name">Phone<span>Price</span> AI</span>
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'index' %}">{% trans "Dashboard" %}</a>
+            <a href="{% url 'upload' %}" class="btn-nav">+ {% trans "Estimate Price" %}</a>
+            <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+        </div>
+    </div>
+
+    <div class="navbar-right">
+        <!-- Language switcher -->
+        <div class="lang-switcher">
+            {% get_current_language as CURRENT_LANG %}
+            <form method="post" action="{% url 'set_language' %}" id="langForm" style="display:none;">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <input type="hidden" name="language" id="langInput" value="">
+            </form>
+            <button type="button" class="lang-btn {% if CURRENT_LANG == 'en' %}active{% endif %}" onclick="setLang('en')">EN</button>
+            <button type="button" class="lang-btn {% if CURRENT_LANG == 'uz' %}active{% endif %}" onclick="setLang('uz')">UZ</button>
+            <button type="button" class="lang-btn {% if CURRENT_LANG == 'ru' %}active{% endif %}" onclick="setLang('ru')">RU</button>
+            <button type="button" class="lang-btn {% if CURRENT_LANG == 'kaa' %}active{% endif %}" onclick="setLang('kaa')">KAA</button>
+        </div>
+
+        <div class="nav-divider"></div>
+
+        <!-- Dark / Light toggle -->
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">🌙</button>
+    </div>
+</nav>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+<script>
+// ── Language switcher ────────────────────────────────────────────
+function setLang(code) {
+    document.getElementById('langInput').value = code;
+    document.getElementById('langForm').submit();
+}
+
+// ── Theme toggle ─────────────────────────────────────────────────
+function applyTheme(theme) {
+    const btn = document.getElementById('themeToggle');
+    if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        if (btn) btn.textContent = '☀️';
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+        if (btn) btn.textContent = '🌙';
+    }
+}
+
+function toggleTheme() {
+    const current = localStorage.getItem('theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+}
+
+// Apply on load
+applyTheme(localStorage.getItem('theme') || 'dark');
+</script>
+
+</body>
+</html>

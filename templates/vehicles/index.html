@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<style>
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-header h2 { margin: 0; }
+    .empty-state { text-align: center; padding: 64px 20px; color: var(--muted); }
+    .empty-state .empty-icon { font-size: 52px; margin-bottom: 16px; display: block; opacity: 0.5; }
+    .inspection-item {
+        background: var(--bg); border: 1px solid var(--border);
+        padding: 16px 18px; margin-bottom: 10px; border-radius: var(--radius-sm);
+        display: grid; grid-template-columns: auto 1fr auto auto; gap: 14px;
+        align-items: center; transition: border-color 0.2s, transform 0.15s, background 0.3s;
+        animation: card-in 0.3s ease both; text-decoration: none; color: inherit;
+    }
+    .inspection-item:hover { border-color: var(--border-hover); transform: translateX(3px); }
+    .item-thumb { width: 54px; height: 54px; border-radius: 9px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+    .item-info strong { display: block; font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .item-meta { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .item-result { font-size: 12px; color: var(--muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+    .price-chip {
+        background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(109,40,217,0.1));
+        border: 1px solid rgba(139,92,246,0.3); color: var(--accent);
+        font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+    }
+    .arrow { color: var(--muted); font-size: 18px; transition: color 0.2s; }
+    .inspection-item:hover .arrow { color: var(--accent); }
+    .count-badge { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-left: 10px; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; text-align: center; transition: background 0.3s; }
+    .stat-num { font-size: 26px; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+</style>
+
+<div class="page-header">
+    <h2>
+        {% trans "My Estimates" %}
+        {% if inspections %}<span class="count-badge">{{ inspections|length }}</span>{% endif %}
+    </h2>
+    <a href="{% url 'upload' %}" class="btn btn-primary">+ {% trans "Estimate Price" %}</a>
+</div>
+
+{% if inspections %}
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-num">{{ inspections|length }}</div>
+        <div class="stat-label">{% trans "Total Estimates" %}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-num" id="avgPrice">—</div>
+        <div class="stat-label">{% trans "Avg Price (USD)" %}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-num" id="avgConf">—</div>
+        <div class="stat-label">{% trans "Avg Confidence" %}</div>
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    {% if inspections %}
+        {% for i in inspections %}
+        <a href="{% url 'result' i.id %}" class="inspection-item" style="animation-delay: {{ forloop.counter0 }}00ms">
+            {% if i.image %}
+                <img class="item-thumb" src="{{ i.image.url }}" alt="">
+            {% else %}
+                <div class="item-thumb" style="background: var(--surface2); display:flex; align-items:center; justify-content:center; font-size:22px;">📱</div>
+            {% endif %}
+            <div class="item-info">
+                <strong>{{ i.brand }}</strong>
+                <div class="item-meta">
+                    <span>{{ i.created_at|date:"d.m.Y H:i" }}</span>
+                    <span>{{ i.get_condition_display }}</span>
+                    {% if i.confidence %}
+                        <span style="color: {% if i.confidence >= 70 %}#22c55e{% elif i.confidence >= 40 %}#f59e0b{% else %}#ef4444{% endif %}">
+                            ● {{ i.confidence }}%
+                        </span>
+                    {% endif %}
+                </div>
+                {% if i.result %}
+                    <div class="item-result">{{ i.result|truncatechars:75 }}</div>
+                {% endif %}
+            </div>
+            {% if i.price_min or i.price_max %}
+            <div class="price-chip">${{ i.price_min }}–${{ i.price_max }}</div>
+            {% endif %}
+            <div class="arrow">›</div>
+        </a>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <span class="empty-icon">📭</span>
+            <p style="font-size:16px; font-weight:600; color:var(--text); margin-bottom:8px;">{% trans "No estimates yet" %}</p>
+            <p style="font-size:14px; margin-bottom:20px;">{% trans "Upload a phone photo to get an AI price estimate" %}</p>
+            <a href="{% url 'upload' %}" class="btn btn-primary">{% trans "Get First Estimate" %}</a>
+        </div>
+    {% endif %}
+</div>
+
+{% if inspections %}
+<script>
+const items = [{% for i in inspections %}{ priceMin: {{ i.price_min }}, priceMax: {{ i.price_max }}, conf: {{ i.confidence }} },{% endfor %}];
+const withPrice = items.filter(x => x.priceMin || x.priceMax);
+if (withPrice.length) {
+    const avg = Math.round(withPrice.reduce((s, x) => s + (x.priceMin + x.priceMax) / 2, 0) / withPrice.length);
+    document.getElementById('avgPrice').textContent = '$' + avg;
+}
+document.getElementById('avgConf').textContent = Math.round(items.reduce((s, x) => s + x.conf, 0) / items.length) + '%';
+</script>
+{% endif %}
+{% endblock %}

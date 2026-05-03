@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<style>
+    .upload-area {
+        border: 2px dashed var(--border); border-radius: var(--radius);
+        padding: 44px 24px; text-align: center; cursor: pointer;
+        transition: all 0.25s; background: var(--bg); margin-bottom: 20px; position: relative;
+    }
+    .upload-area:hover, .upload-area.drag-over { border-color: var(--accent); background: rgba(139,92,246,0.04); }
+    .upload-icon { font-size: 44px; margin-bottom: 12px; display: block; }
+    .upload-area p { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+    .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .preview-box { display: none; margin-bottom: 20px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); position: relative; }
+    .preview-box img { width: 100%; max-height: 300px; object-fit: cover; display: block; border-radius: 0; }
+    .preview-label { position: absolute; top: 10px; left: 10px; background: rgba(10,15,30,0.82); color: var(--accent); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(139,92,246,0.35); backdrop-filter: blur(8px); }
+    .form-row { margin-bottom: 18px; }
+    .tips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .tip-chip { display: flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; font-size: 12px; color: var(--muted); transition: background 0.3s; }
+
+    /* Brand autocomplete */
+    .brand-wrapper { position: relative; margin-bottom: 18px; }
+    .brand-wrapper input[type="text"] { margin-bottom: 0; padding-right: 36px; }
+    .brand-clear { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; line-height: 1; display: none; padding: 0 2px; transition: color 0.15s; }
+    .brand-clear:hover { color: var(--text); }
+    .brand-suggestions { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); z-index: 50; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.25); max-height: 240px; overflow-y: auto; }
+    .brand-suggestions.open { display: block; }
+    .sugg-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 14px; color: var(--text); cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border); }
+    .sugg-item:last-child { border-bottom: none; }
+    .sugg-item:hover, .sugg-item.focused { background: rgba(139,92,246,0.12); color: var(--accent); }
+    .sugg-item .sugg-icon { font-size: 16px; flex-shrink: 0; }
+    .sugg-item .sugg-name { flex: 1; }
+    .sugg-item .sugg-hint { font-size: 11px; color: var(--muted); background: var(--bg); padding: 2px 7px; border-radius: 10px; border: 1px solid var(--border); }
+    .quick-picks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; margin-bottom: 18px; }
+    .quick-pick-chip { display: inline-flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 13px; color: var(--muted); cursor: pointer; transition: all 0.18s; user-select: none; }
+    .quick-pick-chip:hover { border-color: var(--accent); color: var(--accent); background: rgba(139,92,246,0.09); }
+    .quick-pick-chip.selected { border-color: var(--accent); background: rgba(139,92,246,0.15); color: var(--accent); font-weight: 500; }
+    .quick-picks-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+
+    /* Loading overlay */
+    .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(10,15,30,0.94); backdrop-filter: blur(14px); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+    .loading-overlay.active { display: flex; animation: fade-in 0.3s ease; }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .scanner { position: relative; width: 180px; height: 180px; }
+    .scanner-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(139,92,246,0.15); }
+    .scanner-ring.r1 { border-top-color: var(--accent); animation: spin 1s linear infinite; }
+    .scanner-ring.r2 { inset: 16px; border-top-color: transparent; border-right-color: rgba(139,92,246,0.5); animation: spin 1.5s linear infinite reverse; }
+    .scanner-ring.r3 { inset: 32px; border-top-color: rgba(139,92,246,0.7); animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .scanner-core { position: absolute; inset: 48px; background: rgba(139,92,246,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; animation: pulse-core 2s ease-in-out infinite; }
+    @keyframes pulse-core { 0%,100%{transform:scale(1);opacity:.8} 50%{transform:scale(1.1);opacity:1} }
+    .loading-title { font-size: 20px; font-weight: 700; color: #f1f5f9; }
+    .loading-steps { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+    .step { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #94a3b8; opacity: .4; transition: all .4s; }
+    .step.active { color: var(--accent); opacity: 1; }
+    .step.done  { color: #22c55e; opacity: .8; }
+    .step-dot   { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .step.active .step-dot { animation: blink 1s ease infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .progress-track { width: 280px; height: 3px; background: #1a2540; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; width: 0%; transition: width .6s ease; }
+</style>
+
+<!-- Loading overlay (always dark — intentional) -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="scanner">
+        <div class="scanner-ring r1"></div><div class="scanner-ring r2"></div><div class="scanner-ring r3"></div>
+        <div class="scanner-core">📱</div>
+    </div>
+    <div class="loading-title">{% trans "Analyzing Phone..." %}</div>
+    <div class="loading-steps">
+        <div class="step active" id="step1"><div class="step-dot"></div>{% trans "Uploading image..." %}</div>
+        <div class="step" id="step2"><div class="step-dot"></div>{% trans "Identifying model & brand..." %}</div>
+        <div class="step" id="step3"><div class="step-dot"></div>{% trans "Assessing condition..." %}</div>
+        <div class="step" id="step4"><div class="step-dot"></div>{% trans "Calculating price estimate..." %}</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="card">
+    <h2>📱 {% trans "Estimate Phone Price" %}</h2>
+
+    <div class="tips">
+        <div class="tip-chip">💡 {% trans "Clear photo = better estimate" %}</div>
+        <div class="tip-chip">📸 {% trans "Show front & back if possible" %}</div>
+        <div class="tip-chip">🔍 {% trans "Include screen condition" %}</div>
+    </div>
+
+    <form method="post" action="{% url 'upload' %}" enctype="multipart/form-data" id="uploadForm">
+        {% csrf_token %}
+
+        <!-- Brand field -->
+        <div class="form-row">
+            <label for="brandInput">{% trans "Phone Brand" %}</label>
+            <div class="quick-picks-label">{% trans "Popular brands — tap to select" %}:</div>
+            <div class="quick-picks" id="quickPicks">
+                <span style="font-size:13px;color:var(--muted);font-style:italic;">{% trans "Loading suggestions..." %}</span>
+            </div>
+            <div class="brand-wrapper">
+                <input type="text" id="brandInput" name="brand"
+                    placeholder="{% trans 'Type or pick a brand above…' %}"
+                    autocomplete="off" required
+                    value="{{ form.brand.value|default:'' }}">
+                <button type="button" class="brand-clear" id="brandClear" title="Clear">✕</button>
+                <div class="brand-suggestions" id="brandDropdown"></div>
+            </div>
+        </div>
+
+        <!-- Condition -->
+        <div class="form-row">
+            <label>{% trans "Device Condition" %}</label>
+            {{ form.condition }}
+        </div>
+
+        <!-- Image -->
+        <div class="upload-area" id="uploadArea">
+            <span class="upload-icon">📷</span>
+            <p>{% trans "Drag & drop a photo or click to select" %}</p>
+            <p style="font-size:12px;">{% trans "JPG, PNG, WEBP up to 10 MB" %}</p>
+            {{ form.image }}
+        </div>
+        <div class="preview-box" id="previewBox">
+            <img id="previewImg" src="" alt="preview">
+            <span class="preview-label">{% trans "Preview" %}</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">💰 {% trans "Estimate Price" %}</button>
+    </form>
+</div>
+
+<script>
+// ── Brand autocomplete ───────────────────────────────────────────
+const brandInput  = document.getElementById('brandInput');
+const brandClear  = document.getElementById('brandClear');
+const dropdown    = document.getElementById('brandDropdown');
+const quickPicks  = document.getElementById('quickPicks');
+const noSuggMsg   = "{% trans 'No brands added yet — ask admin to add them' %}";
+const suggLabel   = "{% trans 'suggestion' %}";
+
+let allBrands = [], focusedIdx = -1;
+
+fetch('/api/brands/')
+    .then(r => r.json())
+    .then(data => {
+        allBrands = data.brands || [];
+        renderQuickPicks(allBrands.slice(0, 12));
+    })
+    .catch(() => { quickPicks.innerHTML = '<span style="font-size:13px;color:var(--muted);">—</span>'; });
+
+function renderQuickPicks(brands) {
+    if (!brands.length) {
+        quickPicks.innerHTML = `<span style="font-size:13px;color:var(--muted);font-style:italic;">${noSuggMsg}</span>`;
+        return;
+    }
+    quickPicks.innerHTML = brands.map(b => `<span class="quick-pick-chip" data-brand="${b}">📱 ${b}</span>`).join('');
+    quickPicks.querySelectorAll('.quick-pick-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            selectBrand(chip.dataset.brand);
+            quickPicks.querySelectorAll('.quick-pick-chip').forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+        });
+    });
+}
+
+function selectBrand(name) { brandInput.value = name; closeDropdown(); brandClear.style.display = 'block'; brandInput.focus(); }
+
+function openDropdown(items) {
+    if (!items.length) { closeDropdown(); return; }
+    focusedIdx = -1;
+    dropdown.innerHTML = items.map((b, i) =>
+        `<div class="sugg-item" data-idx="${i}" data-brand="${b}">
+            <span class="sugg-icon">📱</span>
+            <span class="sugg-name">${b}</span>
+            <span class="sugg-hint">${suggLabel}</span>
+        </div>`).join('');
+    dropdown.querySelectorAll('.sugg-item').forEach(el => {
+        el.addEventListener('mousedown', e => { e.preventDefault(); selectBrand(el.dataset.brand); });
+    });
+    dropdown.classList.add('open');
+}
+
+function closeDropdown() { dropdown.classList.remove('open'); focusedIdx = -1; }
+
+function updateFocus() {
+    dropdown.querySelectorAll('.sugg-item').forEach((el, i) => el.classList.toggle('focused', i === focusedIdx));
+}
+
+brandInput.addEventListener('input', () => {
+    const q = brandInput.value.trim().toLowerCase();
+    brandClear.style.display = q ? 'block' : 'none';
+    quickPicks.querySelectorAll('.quick-pick-chip').forEach(c => {
+        c.classList.toggle('selected', c.dataset.brand.toLowerCase() === q);
+    });
+    if (!q) { closeDropdown(); return; }
+    openDropdown(allBrands.filter(b => b.toLowerCase().includes(q)));
+});
+
+brandInput.addEventListener('keydown', e => {
+    const items = dropdown.querySelectorAll('.sugg-item');
+    if (!dropdown.classList.contains('open')) return;
+    if (e.key === 'ArrowDown')  { e.preventDefault(); focusedIdx = Math.min(focusedIdx+1, items.length-1); updateFocus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); focusedIdx = Math.max(focusedIdx-1, 0); updateFocus(); }
+    else if (e.key === 'Enter' && focusedIdx >= 0) { e.preventDefault(); selectBrand(items[focusedIdx].dataset.brand); }
+    else if (e.key === 'Escape') closeDropdown();
+});
+
+brandInput.addEventListener('focus', () => { if (!brandInput.value.trim()) openDropdown(allBrands); });
+document.addEventListener('click', e => { if (!e.target.closest('.brand-wrapper')) closeDropdown(); });
+brandClear.addEventListener('click', () => {
+    brandInput.value = ''; brandClear.style.display = 'none';
+    quickPicks.querySelectorAll('.quick-pick-chip').forEach(c => c.classList.remove('selected'));
+    closeDropdown(); brandInput.focus();
+});
+if (brandInput.value.trim()) brandClear.style.display = 'block';
+
+// ── Image preview ───────────────────────────────────────────────
+const fileInput      = document.querySelector('input[type="file"]');
+const previewBox     = document.getElementById('previewBox');
+const previewImg     = document.getElementById('previewImg');
+const uploadArea     = document.getElementById('uploadArea');
+const uploadForm     = document.getElementById('uploadForm');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const progressFill   = document.getElementById('progressFill');
+
+fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => { previewImg.src = e.target.result; previewBox.style.display = 'block'; };
+    reader.readAsDataURL(file);
+});
+
+uploadArea.addEventListener('dragover',  e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+uploadArea.addEventListener('drop', e => {
+    e.preventDefault(); uploadArea.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) { const dt = new DataTransfer(); dt.items.add(file); fileInput.files = dt.files; fileInput.dispatchEvent(new Event('change')); }
+});
+
+uploadForm.addEventListener('submit', () => {
+    loadingOverlay.classList.add('active');
+    [
+        { el: document.getElementById('step1'), delay: 0,    progress: 15 },
+        { el: document.getElementById('step2'), delay: 1400, progress: 40 },
+        { el: document.getElementById('step3'), delay: 3200, progress: 68 },
+        { el: document.getElementById('step4'), delay: 5600, progress: 90 },
+    ].forEach((s, i, arr) => {
+        setTimeout(() => {
+            if (i > 0) { arr[i-1].el.classList.remove('active'); arr[i-1].el.classList.add('done'); }
+            s.el.classList.add('active');
+            progressFill.style.width = s.progress + '%';
+        }, s.delay);
+    });
+});
+</script>
+{% endblock %}

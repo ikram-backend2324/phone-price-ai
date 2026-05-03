@@ -1,0 +1,171 @@
+# English
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Estimate Price"
+msgstr "Estimate Price"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "My Estimates"
+msgstr "My Estimates"
+
+msgid "Total Estimates"
+msgstr "Total Estimates"
+
+msgid "Avg Price (USD)"
+msgstr "Avg Price (USD)"
+
+msgid "Avg Confidence"
+msgstr "Avg Confidence"
+
+msgid "No estimates yet"
+msgstr "No estimates yet"
+
+msgid "Upload a phone photo to get an AI price estimate"
+msgstr "Upload a phone photo to get an AI price estimate"
+
+msgid "Get First Estimate"
+msgstr "Get First Estimate"
+
+msgid "Estimate Phone Price"
+msgstr "Estimate Phone Price"
+
+msgid "Popular brands — tap to select"
+msgstr "Popular brands — tap to select"
+
+msgid "Type or pick a brand above…"
+msgstr "Type or pick a brand above…"
+
+msgid "Phone Brand"
+msgstr "Phone Brand"
+
+msgid "Device Condition"
+msgstr "Device Condition"
+
+msgid "Drag & drop a photo or click to select"
+msgstr "Drag & drop a photo or click to select"
+
+msgid "JPG, PNG, WEBP up to 10 MB"
+msgstr "JPG, PNG, WEBP up to 10 MB"
+
+msgid "Clear photo = better estimate"
+msgstr "Clear photo = better estimate"
+
+msgid "Show front & back if possible"
+msgstr "Show front & back if possible"
+
+msgid "Include screen condition"
+msgstr "Include screen condition"
+
+msgid "Analyzing Phone..."
+msgstr "Analyzing Phone..."
+
+msgid "Uploading image..."
+msgstr "Uploading image..."
+
+msgid "Identifying model & brand..."
+msgstr "Identifying model & brand..."
+
+msgid "Assessing condition..."
+msgstr "Assessing condition..."
+
+msgid "Calculating price estimate..."
+msgstr "Calculating price estimate..."
+
+msgid "Price Estimate"
+msgstr "Price Estimate"
+
+msgid "Estimated Market Price"
+msgstr "Estimated Market Price"
+
+msgid "USD · Based on condition & model"
+msgstr "USD · Based on condition & model"
+
+msgid "AI Analysis"
+msgstr "AI Analysis"
+
+msgid "Model confidence"
+msgstr "Model confidence"
+
+msgid "Analysis complete"
+msgstr "Analysis complete"
+
+msgid "New Estimate"
+msgstr "New Estimate"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Sign In"
+msgstr "Sign In"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "No account?"
+msgstr "No account?"
+
+msgid "Register"
+msgstr "Register"
+
+msgid "Create Account"
+msgstr "Create Account"
+
+msgid "Already have an account?"
+msgstr "Already have an account?"
+
+msgid "Sign in"
+msgstr "Sign in"
+
+msgid "New / Like New"
+msgstr "New / Like New"
+
+msgid "Good"
+msgstr "Good"
+
+msgid "Fair"
+msgstr "Fair"
+
+msgid "Poor"
+msgstr "Poor"
+
+msgid "Loading suggestions..."
+msgstr "Loading suggestions..."
+
+msgid "No brands added yet — ask admin to add them"
+msgstr "No brands added yet — ask admin to add them"
+
+msgid "Preview"
+msgstr "Preview"
+
+msgid "suggestion"
+msgstr "suggestion"
+
+msgid "Welcome to PhonePrice AI Admin"
+msgstr "Welcome to PhonePrice AI Admin"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "View Site"
+msgstr "View Site"
+
+msgid "English"
+msgstr "English"
+
+msgid "Uzbek"
+msgstr "Uzbek"
+
+msgid "Russian"
+msgstr "Russian"
+
+msgid "Qaraqalpaq"
+msgstr "Qaraqalpaq"

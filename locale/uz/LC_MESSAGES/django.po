@@ -1,0 +1,171 @@
+# Uzbek
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uz\n"
+
+msgid "Dashboard"
+msgstr "Boshqaruv paneli"
+
+msgid "Estimate Price"
+msgstr "Narxni aniqlash"
+
+msgid "Logout"
+msgstr "Chiqish"
+
+msgid "My Estimates"
+msgstr "Mening baholashlarim"
+
+msgid "Total Estimates"
+msgstr "Jami baholashlar"
+
+msgid "Avg Price (USD)"
+msgstr "O'rtacha narx (USD)"
+
+msgid "Avg Confidence"
+msgstr "O'rtacha ishonchlilik"
+
+msgid "No estimates yet"
+msgstr "Hali baholashlar yo'q"
+
+msgid "Upload a phone photo to get an AI price estimate"
+msgstr "AI yordamida narxni aniqlash uchun telefon rasmini yuklang"
+
+msgid "Get First Estimate"
+msgstr "Birinchi baholashni olish"
+
+msgid "Estimate Phone Price"
+msgstr "Telefon narxini aniqlash"
+
+msgid "Popular brands — tap to select"
+msgstr "Mashhur brendlar — tanlash uchun bosing"
+
+msgid "Type or pick a brand above…"
+msgstr "Yozing yoki yuqoridan brend tanlang…"
+
+msgid "Phone Brand"
+msgstr "Telefon brendi"
+
+msgid "Device Condition"
+msgstr "Qurilma holati"
+
+msgid "Drag & drop a photo or click to select"
+msgstr "Rasmni torting yoki tanlash uchun bosing"
+
+msgid "JPG, PNG, WEBP up to 10 MB"
+msgstr "JPG, PNG, WEBP, 10 MB gacha"
+
+msgid "Clear photo = better estimate"
+msgstr "Aniq rasm = aniqroq baho"
+
+msgid "Show front & back if possible"
+msgstr "Iloji bo'lsa, old va orqa tomonini ko'rsating"
+
+msgid "Include screen condition"
+msgstr "Ekran holatini ko'rsating"
+
+msgid "Analyzing Phone..."
+msgstr "Telefon tahlil qilinmoqda..."
+
+msgid "Uploading image..."
+msgstr "Rasm yuklanmoqda..."
+
+msgid "Identifying model & brand..."
+msgstr "Model va brend aniqlanmoqda..."
+
+msgid "Assessing condition..."
+msgstr "Holati baholanmoqda..."
+
+msgid "Calculating price estimate..."
+msgstr "Taxminiy narx hisoblanmoqda..."
+
+msgid "Price Estimate"
+msgstr "Taxminiy narx"
+
+msgid "Estimated Market Price"
+msgstr "Taxminiy bozor narxi"
+
+msgid "USD · Based on condition & model"
+msgstr "USD · Holati va modeliga asoslangan"
+
+msgid "AI Analysis"
+msgstr "AI tahlili"
+
+msgid "Model confidence"
+msgstr "Model ishonchliligi"
+
+msgid "Analysis complete"
+msgstr "Tahlil yakunlandi"
+
+msgid "New Estimate"
+msgstr "Yangi baholash"
+
+msgid "Back"
+msgstr "Orqaga"
+
+msgid "Sign In"
+msgstr "Kirish"
+
+msgid "Login"
+msgstr "Kirish"
+
+msgid "No account?"
+msgstr "Hisobingiz yo'qmi?"
+
+msgid "Register"
+msgstr "Ro'yxatdan o'tish"
+
+msgid "Create Account"
+msgstr "Hisob yaratish"
+
+msgid "Already have an account?"
+msgstr "Hisobingiz bormi?"
+
+msgid "Sign in"
+msgstr "Kirish"
+
+msgid "New / Like New"
+msgstr "Yangi / Yangidek"
+
+msgid "Good"
+msgstr "Yaxshi"
+
+msgid "Fair"
+msgstr "O'rtacha"
+
+msgid "Poor"
+msgstr "Yomon"
+
+msgid "Loading suggestions..."
+msgstr "Tavsiyalar yuklanmoqda..."
+
+msgid "No brands added yet — ask admin to add them"
+msgstr "Hali brendlar qo'shilmagan — admindan qo'shishni so'rang"
+
+msgid "Preview"
+msgstr "Oldindan ko'rish"
+
+msgid "suggestion"
+msgstr "tavsiya"
+
+msgid "Welcome to PhonePrice AI Admin"
+msgstr "PhonePrice AI boshqaruv paneliga xush kelibsiz"
+
+msgid "Home"
+msgstr "Bosh sahifa"
+
+msgid "View Site"
+msgstr "Saytni ko'rish"
+
+msgid "English"
+msgstr "Inglizcha"
+
+msgid "Uzbek"
+msgstr "O'zbekcha"
+
+msgid "Russian"
+msgstr "Ruscha"
+
+msgid "Qaraqalpaq"
+msgstr "Qaraqalpaqsha"

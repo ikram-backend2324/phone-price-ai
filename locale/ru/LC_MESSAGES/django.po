@@ -1,0 +1,171 @@
+# Russian
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+
+msgid "Dashboard"
+msgstr "Панель управления"
+
+msgid "Estimate Price"
+msgstr "Оценить цену"
+
+msgid "Logout"
+msgstr "Выйти"
+
+msgid "My Estimates"
+msgstr "Мои оценки"
+
+msgid "Total Estimates"
+msgstr "Всего оценок"
+
+msgid "Avg Price (USD)"
+msgstr "Средняя цена (USD)"
+
+msgid "Avg Confidence"
+msgstr "Средняя уверенность"
+
+msgid "No estimates yet"
+msgstr "Оценок пока нет"
+
+msgid "Upload a phone photo to get an AI price estimate"
+msgstr "Загрузите фото телефона для оценки цены с помощью AI"
+
+msgid "Get First Estimate"
+msgstr "Получить первую оценку"
+
+msgid "Estimate Phone Price"
+msgstr "Оценить цену телефона"
+
+msgid "Popular brands — tap to select"
+msgstr "Популярные бренды — нажмите для выбора"
+
+msgid "Type or pick a brand above…"
+msgstr "Введите или выберите бренд выше…"
+
+msgid "Phone Brand"
+msgstr "Бренд телефона"
+
+msgid "Device Condition"
+msgstr "Состояние устройства"
+
+msgid "Drag & drop a photo or click to select"
+msgstr "Перетащите фото или нажмите для выбора"
+
+msgid "JPG, PNG, WEBP up to 10 MB"
+msgstr "JPG, PNG, WEBP до 10 МБ"
+
+msgid "Clear photo = better estimate"
+msgstr "Чёткое фото = точнее оценка"
+
+msgid "Show front & back if possible"
+msgstr "По возможности покажите переднюю и заднюю стороны"
+
+msgid "Include screen condition"
+msgstr "Покажите состояние экрана"
+
+msgid "Analyzing Phone..."
+msgstr "Анализ телефона..."
+
+msgid "Uploading image..."
+msgstr "Загрузка изображения..."
+
+msgid "Identifying model & brand..."
+msgstr "Определение модели и бренда..."
+
+msgid "Assessing condition..."
+msgstr "Оценка состояния..."
+
+msgid "Calculating price estimate..."
+msgstr "Расчёт примерной цены..."
+
+msgid "Price Estimate"
+msgstr "Оценка цены"
+
+msgid "Estimated Market Price"
+msgstr "Примерная рыночная цена"
+
+msgid "USD · Based on condition & model"
+msgstr "USD · На основе состояния и модели"
+
+msgid "AI Analysis"
+msgstr "AI-анализ"
+
+msgid "Model confidence"
+msgstr "Уверенность модели"
+
+msgid "Analysis complete"
+msgstr "Анализ завершён"
+
+msgid "New Estimate"
+msgstr "Новая оценка"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Sign In"
+msgstr "Войти"
+
+msgid "Login"
+msgstr "Войти"
+
+msgid "No account?"
+msgstr "Нет аккаунта?"
+
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgid "Create Account"
+msgstr "Создать аккаунт"
+
+msgid "Already have an account?"
+msgstr "Уже есть аккаунт?"
+
+msgid "Sign in"
+msgstr "Войти"
+
+msgid "New / Like New"
+msgstr "Новый / Как новый"
+
+msgid "Good"
+msgstr "Хорошее"
+
+msgid "Fair"
+msgstr "Среднее"
+
+msgid "Poor"
+msgstr "Плохое"
+
+msgid "Loading suggestions..."
+msgstr "Загрузка подсказок..."
+
+msgid "No brands added yet — ask admin to add them"
+msgstr "Бренды ещё не добавлены — попросите администратора"
+
+msgid "Preview"
+msgstr "Предпросмотр"
+
+msgid "suggestion"
+msgstr "подсказка"
+
+msgid "Welcome to PhonePrice AI Admin"
+msgstr "Добро пожаловать в панель PhonePrice AI"
+
+msgid "Home"
+msgstr "Главная"
+
+msgid "View Site"
+msgstr "Открыть сайт"
+
+msgid "English"
+msgstr "Английский"
+
+msgid "Uzbek"
+msgstr "Узбекский"
+
+msgid "Russian"
+msgstr "Русский"
+
+msgid "Qaraqalpaq"
+msgstr "Каракалпакский"

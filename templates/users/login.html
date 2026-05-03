@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="card" style="max-width:400px;margin:0 auto;">
+    <h2 style="text-align:center;">{% trans "Sign In" %}</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% for field in form %}
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <p style="color:var(--danger);font-size:12px;margin-top:-10px;margin-bottom:10px;">{{ field.errors.0 }}</p>
+            {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">{% trans "Login" %}</button>
+    </form>
+    <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted);">
+        {% trans "No account?" %} <a href="{% url 'register' %}" style="color:var(--accent);">{% trans "Register" %}</a>
+    </p>
+</div>
+{% endblock %}
