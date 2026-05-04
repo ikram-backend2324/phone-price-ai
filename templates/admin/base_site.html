@@ -4,61 +4,7 @@
 {% block extrastyle %}
 {{ block.super }}
 <style>
-.lang-switcher-admin {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    margin-right: 16px;
-    vertical-align: middle;
-}
-.lang-btn-admin {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.35);
-    color: rgba(255,255,255,0.75);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 5px;
-    cursor: pointer;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    line-height: 1.6;
-}
-.lang-btn-admin:hover {
-    border-color: #fff;
-    color: #fff;
-    background: rgba(255,255,255,0.15);
-}
-.lang-btn-admin.active {
-    border-color: #fff;
-    color: #fff;
-    background: rgba(255,255,255,0.25);
-    font-weight: 800;
-}
+/* Language switcher injected by lang_switcher.js */
 #jazzy-lang-form { display: none; }
 </style>
-{% endblock %}
-
-{% block nav-global %}
-{{ block.super }}
-<form method="post" action="{% url 'set_language' %}" id="jazzy-lang-form">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ request.get_full_path }}">
-    <input type="hidden" name="language" id="jazzy-lang-input" value="">
-</form>
-{% endblock %}
-
-{% block usertools %}
-{% get_current_language as CURRENT_LANG %}
-<div class="lang-switcher-admin">
-    {% for lang_code, lang_name in LANGUAGES %}
-    <button
-        type="button"
-        class="lang-btn-admin {% if CURRENT_LANG == lang_code %}active{% endif %}"
-        onclick="document.getElementById('jazzy-lang-input').value='{{ lang_code }}'; document.getElementById('jazzy-lang-form').submit();"
-    >{{ lang_code|upper }}</button>
-    {% endfor %}
-</div>
-{{ block.super }}
 {% endblock %}

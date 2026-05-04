@@ -3,42 +3,59 @@
 
 {% block content %}
 <style>
-    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-    @media (max-width: 640px) { .result-grid { grid-template-columns: 1fr; } }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
     .img-card { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); position: relative; }
-    .img-card img { width: 100%; height: 280px; object-fit: cover; display: block; border-radius: 0; transition: transform 0.4s ease; }
+    .img-card img { width: 100%; height: 260px; object-fit: cover; display: block; border-radius: 0; transition: transform 0.4s; }
     .img-card:hover img { transform: scale(1.02); }
-    .img-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 16px 16px; background: linear-gradient(transparent, rgba(10,15,30,0.93)); display: flex; align-items: center; gap: 8px; }
-    .conf-badge { padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid; }
+    .img-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 14px 14px; background: linear-gradient(transparent, rgba(10,15,30,0.93)); display: flex; align-items: center; gap: 8px; }
+    .conf-badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
     .conf-low  { background: rgba(239,68,68,0.15);  color: #ef4444; border-color: rgba(239,68,68,0.3); }
     .conf-mid  { background: rgba(245,158,11,0.15); color: #f59e0b; border-color: rgba(245,158,11,0.3); }
     .conf-high { background: rgba(34,197,94,0.15);  color: #22c55e; border-color: rgba(34,197,94,0.3); }
-    .price-hero { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(109,40,217,0.08)); border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 18px; text-align: center; }
-    .price-label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-    .price-range { font-size: 36px; font-weight: 700; color: var(--text); letter-spacing: -1px; }
+
+    .price-hero { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(109,40,217,0.08)); border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px; text-align: center; }
+    .price-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .price-range { font-size: 30px; font-weight: 700; color: var(--text); letter-spacing: -1px; }
     .price-range span { color: var(--accent); }
-    .price-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .price-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
     .analysis-card { display: flex; flex-direction: column; }
-    .analysis-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .analysis-icon { width: 36px; height: 36px; background: rgba(139,92,246,0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .analysis-text { color: var(--muted); font-size: 14px; line-height: 1.75; flex: 1; }
-    .conf-section { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
-    .conf-label-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
-    .conf-track { background: var(--bg); border-radius: 6px; height: 8px; overflow: hidden; border: 1px solid var(--border); }
+    .analysis-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .analysis-icon { width: 34px; height: 34px; background: rgba(139,92,246,0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .analysis-text { color: var(--muted); font-size: 13px; line-height: 1.7; flex: 1; }
+
+    .conf-section { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+    .conf-label-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+    .conf-track { background: var(--bg); border-radius: 6px; height: 7px; overflow: hidden; border: 1px solid var(--border); }
     .conf-bar { height: 100%; border-radius: 6px; width: 0%; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
     .conf-bar.low  { background: linear-gradient(90deg, #ef4444, #f97316); }
     .conf-bar.mid  { background: linear-gradient(90deg, #f59e0b, #eab308); }
     .conf-bar.high { background: linear-gradient(90deg, #22c55e, #8b5cf6); }
-    .meta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .meta-chip { display: flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: var(--muted); transition: background 0.3s; }
-    .meta-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-    .cond-new  { color: #22c55e; } .cond-good { color: #38bdf8; } .cond-fair { color: #f59e0b; } .cond-poor { color: #ef4444; }
-    .card, .img-card { animation: card-in 0.45s ease both; }
-    .card:nth-child(2) { animation-delay: 0.1s; }
+
+    .meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .meta-chip { display: flex; align-items: center; gap: 5px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px; font-size: 12px; color: var(--muted); }
+    .meta-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .cond-new{color:#22c55e;} .cond-good{color:#38bdf8;} .cond-fair{color:#f59e0b;} .cond-poor{color:#ef4444;}
+
+    .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .result-header h2 { margin: 0; }
+
+    /* Stack on mobile */
+    @media (max-width: 640px) {
+        .result-grid { grid-template-columns: 1fr; }
+        .img-card img { height: 220px; }
+        .price-range { font-size: 26px; }
+    }
+
+    @media (max-width: 400px) {
+        .price-range { font-size: 22px; }
+        .meta-chip { font-size: 11px; padding: 3px 8px; }
+        .analysis-text { font-size: 12px; }
+    }
 </style>
 
-<div style="margin-bottom:22px; display:flex; justify-content:space-between; align-items:center;">
-    <h2 style="margin:0;">{% trans "Price Estimate" %}</h2>
+<div class="result-header">
+    <h2>{% trans "Price Estimate" %}</h2>
     <a href="{% url 'index' %}" class="btn btn-outline">← {% trans "Back" %}</a>
 </div>
 
@@ -47,7 +64,7 @@
         <img src="{{ inspection.image.url }}" alt="Phone photo">
         <div class="img-overlay">
             <span id="confBadge" class="conf-badge">—</span>
-            <span style="color:var(--muted);font-size:12px;">AI confidence</span>
+            <span style="color:var(--muted);font-size:11px;">AI confidence</span>
         </div>
     </div>
 
@@ -57,7 +74,7 @@
             <div class="price-label">{% trans "Estimated Market Price" %}</div>
             <div class="price-range">
                 <span>${{ inspection.price_min }}</span>
-                <span style="color:var(--muted);font-size:24px;"> – </span>
+                <span style="color:var(--muted);font-size:20px;"> – </span>
                 <span>${{ inspection.price_max }}</span>
             </div>
             <div class="price-sub">{% trans "USD · Based on condition & model" %}</div>
@@ -67,8 +84,8 @@
         <div class="analysis-header">
             <div class="analysis-icon">🤖</div>
             <div>
-                <div style="font-weight:600;font-size:15px;">{% trans "AI Analysis" %}</div>
-                <div style="font-size:12px;color:var(--muted);">Claude Vision</div>
+                <div style="font-weight:600;font-size:14px;">{% trans "AI Analysis" %}</div>
+                <div style="font-size:11px;color:var(--muted);">Claude Vision</div>
             </div>
         </div>
 
@@ -78,14 +95,14 @@
         <div class="conf-section">
             <div class="conf-label-row">
                 <span>{% trans "Model confidence" %}</span>
-                <span id="confPercent">{{ inspection.confidence }}%</span>
+                <span>{{ inspection.confidence }}%</span>
             </div>
             <div class="conf-track"><div class="conf-bar" id="confBar"></div></div>
         </div>
     </div>
 </div>
 
-<div class="card" style="padding:18px 24px;">
+<div class="card" style="padding:14px 18px;">
     <div class="meta-row">
         <div class="meta-chip"><div class="dot"></div>{{ inspection.brand }}</div>
         <div class="meta-chip"><div class="dot"></div><span class="cond-{{ inspection.condition }}">{{ inspection.get_condition_display }}</span></div>
@@ -94,7 +111,9 @@
     </div>
 </div>
 
-<a href="{% url 'upload' %}" class="btn btn-primary" style="margin-top:8px;">+ {% trans "New Estimate" %}</a>
+<a href="{% url 'upload' %}" class="btn btn-primary" style="margin-top:4px;width:100%;justify-content:center;">
+    + {% trans "New Estimate" %}
+</a>
 
 <script>
 const confidence = {{ inspection.confidence }};
@@ -111,14 +130,11 @@ setTimeout(() => {
     const el = document.getElementById('analysisText');
     if (!el) return;
     const raw = JSON.parse(document.getElementById('resultData').textContent) || '';
-    const html = raw.split('\n').map(line => {
-        if (line.trim().startsWith('#')) return '';
-        if (/^(CONFIDENCE|PRICE_MIN|PRICE_MAX):/.test(line.trim())) return '';
+    el.innerHTML = raw.split('\n').map(line => {
+        if (!line.trim() || line.trim().startsWith('#') || /^(CONFIDENCE|PRICE_MIN|PRICE_MAX):/.test(line.trim())) return '';
         line = line.replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text);font-weight:600;">$1</strong>');
-        if (!line.trim()) return '';
-        return '<p style="margin:0 0 10px 0;line-height:1.7;">' + line + '</p>';
-    }).filter(x => x).join('');
-    el.innerHTML = html;
+        return '<p style="margin:0 0 8px 0;line-height:1.7;">' + line + '</p>';
+    }).filter(Boolean).join('');
 })();
 </script>
 {% endblock %}
